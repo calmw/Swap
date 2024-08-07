@@ -1,11 +1,10 @@
 require("@nomicfoundation/hardhat-toolbox");
 require('@openzeppelin/hardhat-upgrades')
-require("@nomiclabs/hardhat-waffle");
 
 const PRIVATE_KEY = process.env.Swap
 
 module.exports = {
-    solidity: "0.8.19",
+    solidity: "0.5.16",
     settings: {
         optimizer: {
             enabled: true,
