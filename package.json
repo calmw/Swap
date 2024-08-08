@@ -6,8 +6,11 @@
   "scripts": {
     "prettier": "prettier --write 'contracts/**/*.sol'",
     "build": "npx hardhat compile",
-    "deploy-appraise-testnet": "npx hardhat --network match_test run scripts/appraise/appraise.js",
-    "upgrade-cityProxy-testnet": "npx hardhat --network match_test run scripts/investment/InvestmentProxy.js"
+    "deploy-weth": " npx npx hardhat --network match_test run scripts/wmat_deploy.js",
+    "deploy-factory": " npx npx hardhat --network match_test run scripts/factory_deploy.js",
+    "deploy-router": " npx npx hardhat --network match_test run scripts/router_deploy.js",
+    "deploy-toxA": " npx npx hardhat --network match_test run scripts/toxa_deploy.js",
+    "deploy-toxB": " npx npx hardhat --network match_test run scripts/toxb_deploy.js"
   },
   "keywords": [],
   "author": "",
