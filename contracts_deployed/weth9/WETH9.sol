@@ -1,10 +1,11 @@
 pragma solidity ^0.4.18;
 
 contract WETH9 {
-    string public name     = "Wrapped Ether";
-    string public symbol   = "WETH";
+    string public name     = "Wrapped MAT";
+    string public symbol   = "WMAT";
     uint8  public decimals = 18;
 
+    event EthReceive(string func, address sender, uint256 value);
     event  Approval(address indexed src, address indexed guy, uint wad);
     event  Transfer(address indexed src, address indexed dst, uint wad);
     event  Deposit(address indexed dst, uint wad);
@@ -19,6 +20,7 @@ contract WETH9 {
     function deposit() public payable {
         balanceOf[msg.sender] += msg.value;
         Deposit(msg.sender, msg.value);
+        EthReceive("receive MAT", msg.sender, msg.value);
     }
     function withdraw(uint wad) public {
         require(balanceOf[msg.sender] >= wad);

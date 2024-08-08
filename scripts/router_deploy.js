@@ -6,7 +6,7 @@ async function main() {
 
     const contractObj = await ethers.getContractFactory(contractName)
 
-    let resp = await contractObj.deploy('0xD5f92Fd92F8c7f9391513E3019D9441aAf5b2D9E',"0x337204331f7fb6e41Ff16f4E305B4A548112bAA1")
+    let resp = await contractObj.deploy('0xD5f92Fd92F8c7f9391513E3019D9441aAf5b2D9E',"0xcf004e01879f24AE8672Ecba89E45dcbf4FEf1eD")
 
     console.log(`deployed to ${resp.address}`);
 }
