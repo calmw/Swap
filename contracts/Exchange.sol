@@ -30,6 +30,7 @@ contract Exchange is RoleAccess, ERC20 {
     // 代币价格 Px=y/x ; Py=x/y ; Px和Py是ETH和token的价格，x和y是ETH和token储备量
     // LP， 每次流动性存入都会根据存入的以太币在以太币储备中的份额按比例发行LP 代币.
     // 发行数量 amountMinted = totalAmount * ( ethDeposited / ethReserve )
+    // 添加流动性时，代币的数量是根据添加的ETH来计算需要添加的代币数量
     function addLiquidity(uint256 _tokenAmount) public payable returns (uint256){
         // 这是一个新的交易所（没有流动性），则当池子为空时允许任意流动性比例
         if (getReserve() == 0) {
