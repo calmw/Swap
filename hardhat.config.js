@@ -17,7 +17,7 @@ module.exports = {
             accounts: [`${PRIVATE_KEY}`],
         },
         match_test: {
-            url: "https://lisbon-testnet-rpc.matchtest.co",
+            url: "http://35.78.192.225:8545/",
             accounts: [`${PRIVATE_KEY}`],
         }
     }

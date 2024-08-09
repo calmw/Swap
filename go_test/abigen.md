@@ -2,6 +2,6 @@
 
 ```shell
 
-./abigen --abi ../abi/router.json --pkg uniswap --type Router --out ./binding/uniswap/router.go
+./abigen --abi ../abi/exchange.json --pkg uniswap --type Exchange --out ./binding/uniswap/exchange.go
 
 ```

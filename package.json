@@ -6,8 +6,8 @@
   "scripts": {
     "prettier": "prettier --write 'contracts/**/*.sol'",
     "build": "npx hardhat compile",
-    "deploy-appraise-testnet": "npx hardhat --network match_test run scripts/appraise/appraise.js",
-    "upgrade-cityProxy-testnet": "npx hardhat --network match_test run scripts/investment/InvestmentProxy.js"
+    "deploy-erc20": "npx hardhat --network match_test run scripts/erc20_deploy.js",
+    "deploy-exchange": "npx hardhat --network match_test run scripts/exchange_deploy.js"
   },
   "keywords": [],
   "author": "",
