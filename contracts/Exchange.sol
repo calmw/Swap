@@ -5,9 +5,9 @@ pragma solidity ^0.8.18;
 
 import "./RoleAccess.sol";
 import "./interface/IERC20.sol";
-import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import {ERC20Burnable} from "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
 
-contract Exchange is RoleAccess, ERC20 {
+contract Exchange is RoleAccess, ERC20Burnable {
     event Log(string func, address sender, uint256 value, bytes data);
 
     address public tokenAddress; // 该交易所使用的代币
@@ -19,9 +19,8 @@ contract Exchange is RoleAccess, ERC20 {
     // 您获得的代币数量与您在池储备中的流动性份额成正比。
     // 费用按您持有的代币数量按比例分配。
     // LP 代币可以兑换回流动性 + 累积费用。
-    constructor(uint256 initialSupply, address _token) ERC20("Liquidity TOKEN", "LP") {
+    constructor(address _token) ERC20Burnable("Liquidity TOKEN", "LP") {
         _addAdmin(msg.sender);
-        _mint(msg.sender, initialSupply);
         require(_token != address(0), "invalid token address");
         tokenAddress = _token;
     }
@@ -31,7 +30,9 @@ contract Exchange is RoleAccess, ERC20 {
     // LP， 每次流动性存入都会根据存入的以太币在以太币储备中的份额按比例发行LP 代币.
     // 发行数量 amountMinted = totalAmount * ( ethDeposited / ethReserve )
     // 添加流动性时，代币的数量是根据添加的ETH来计算需要添加的代币数量
-    function addLiquidity(uint256 _tokenAmount) public payable returns (uint256){
+    function addLiquidity(
+        uint256 _tokenAmount
+    ) public payable returns (uint256) {
         // 这是一个新的交易所（没有流动性），则当池子为空时允许任意流动性比例
         if (getReserve() == 0) {
             IERC20 token = IERC20(tokenAddress);
@@ -64,6 +65,25 @@ contract Exchange is RoleAccess, ERC20 {
         }
     }
 
+    // 消除流动性
+    // 为了消除流动性，我们可以再次使用 LP 代币：
+    // 我们不需要记住每个流动性提供者存入的金额，并且可以根据 LP 代币份额计算移除的流动性数量
+    // 消除流动性，返回减少的ETH和token数量
+    function removeLiquidity(
+        uint256 _amount
+    ) public returns (uint256, uint256) {
+        require(_amount > 0, "invalid amount");
+
+        uint256 ethAmount = (address(this).balance * _amount) / totalSupply();
+        uint256 tokenAmount = (getReserve() * _amount) / totalSupply();
+
+        burnFrom(msg.sender, _amount);
+        payable(msg.sender).transfer(ethAmount);
+        IERC20(tokenAddress).transfer(msg.sender, tokenAmount);
+
+        return (ethAmount, tokenAmount);
+    }
+
     // 返回交易所代币余额
     function getReserve() public view returns (uint256) {
         return IERC20(tokenAddress).balanceOf(address(this));
@@ -79,6 +99,8 @@ contract Exchange is RoleAccess, ERC20 {
         return (inputReserve * 1000) / outputReserve;
     }
 
+    // 从每次交换中收取 1% 的费用
+    // amountWithFee = amount∗(100-fee)/100
     function getAmount(
         uint256 inputAmount,
         uint256 inputReserve,
@@ -86,7 +108,11 @@ contract Exchange is RoleAccess, ERC20 {
     ) private pure returns (uint256) {
         require(inputReserve > 0 && outputReserve > 0, "invalid reserves");
 
-        return (inputAmount * outputReserve) / (inputReserve + inputAmount);
+        uint256 inputAmountWithFee = inputAmount * 99;
+        uint256 numerator = inputAmountWithFee * outputReserve;
+        uint256 denominator = (inputReserve * 100) + inputAmountWithFee;
+
+        return numerator / denominator;
     }
 
     function getTokenAmount(uint256 _ethSold) public view returns (uint256) {
