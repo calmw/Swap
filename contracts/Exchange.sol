@@ -5,9 +5,9 @@ pragma solidity ^0.8.18;
 
 import "./RoleAccess.sol";
 import "./interface/IERC20.sol";
-import {ERC20Burnable} from "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
+import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
-contract Exchange is RoleAccess, ERC20Burnable {
+contract Exchange is RoleAccess, ERC20 {
     event Log(string func, address sender, uint256 value, bytes data);
 
     address public tokenAddress; // 该交易所使用的代币
@@ -19,7 +19,7 @@ contract Exchange is RoleAccess, ERC20Burnable {
     // 您获得的代币数量与您在池储备中的流动性份额成正比。
     // 费用按您持有的代币数量按比例分配。
     // LP 代币可以兑换回流动性 + 累积费用。
-    constructor(address _token) ERC20Burnable("Liquidity TOKEN", "LP") {
+    constructor(address _token) ERC20("Liquidity TOKEN", "LP") {
         _addAdmin(msg.sender);
         require(_token != address(0), "invalid token address");
         tokenAddress = _token;
@@ -77,7 +77,7 @@ contract Exchange is RoleAccess, ERC20Burnable {
         uint256 ethAmount = (address(this).balance * _amount) / totalSupply();
         uint256 tokenAmount = (getReserve() * _amount) / totalSupply();
 
-        burnFrom(msg.sender, _amount);
+        _burn(msg.sender, _amount);
         payable(msg.sender).transfer(ethAmount);
         IERC20(tokenAddress).transfer(msg.sender, tokenAmount);
 
