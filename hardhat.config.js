@@ -4,9 +4,9 @@ require('@openzeppelin/hardhat-upgrades')
 const PRIVATE_KEY = process.env.META_ACCOUNT
 
 module.exports = {
-    // solidity: "0.4.18",
+    solidity: "0.4.18",
     // solidity: "0.5.16",
-    solidity: "0.6.6",
+    // solidity: "0.6.6",
     // solidity: "0.8.21",
     settings: {
         optimizer: {
