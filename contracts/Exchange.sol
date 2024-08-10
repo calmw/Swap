@@ -155,6 +155,7 @@ contract Exchange is RoleAccess, ERC20 {
     // ETH兑换token
     // _minTokens，这是用户希望用以太币换取的最小代币数量。此数量包括滑点容忍度；用户同意至少获得这么多，但不能更少。这是一个非常重要的机制，
     // 可以保护用户免受抢先交易机器人的攻击，这些机器人试图拦截他们的交易并修改池余额以获取利润。
+    // http://35.78.192.225:4000/tx/0x62c29700cc390669159037747070c168a99e1ef3fa014731e51019f904aa4a4e
     function ethToTokenSwap(uint256 _minTokens) public payable {
         uint256 tokenReserve = getReserve();
         uint256 tokensBought = getAmount(

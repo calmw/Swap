@@ -42,7 +42,7 @@ func GetAuth(cli *ethclient.Client) (error, *bind.TransactOpts) {
 		return err, nil
 	}
 
-	auth, err := bind.NewKeyedTransactorWithChainID(privateKeyEcdsa, big.NewInt(9000))
+	auth, err := bind.NewKeyedTransactorWithChainID(privateKeyEcdsa, big.NewInt(698))
 	if err != nil {
 		mlog.Logger.Sugar().Error(err)
 		return err, nil
@@ -51,7 +51,7 @@ func GetAuth(cli *ethclient.Client) (error, *bind.TransactOpts) {
 	return nil, &bind.TransactOpts{
 		From:      auth.From,
 		Nonce:     big.NewInt(int64(nonce)),
-		Value:     big.NewInt(0),
+		Value:     big.NewInt(1e18),
 		GasPrice:  gasPrice,
 		Signer:    auth.Signer,
 		GasFeeCap: nil,
