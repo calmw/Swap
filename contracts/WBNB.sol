@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.4.18;
 
-contract WMAT {
-    string public name     = "Wrapped MAT";
-    string public symbol   = "WMAT";
+contract WBNB {
+    string public name     = "Wrapped BNB";
+    string public symbol   = "WBNB";
     uint8  public decimals = 18;
 
     event  Approval(address indexed src, address indexed guy, uint wad);
