@@ -1,6 +1,7 @@
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.4.18;
 
-contract WETH9 {
+contract WMAT {
     string public name     = "Wrapped MAT";
     string public symbol   = "WMAT";
     uint8  public decimals = 18;

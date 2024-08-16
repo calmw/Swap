@@ -1,6 +1,4 @@
-/**
- *Submitted for verification at Etherscan.io on 2020-05-04
-*/
+// SPDX-License-Identifier: MIT
 
 pragma solidity =0.5.16;
 
@@ -116,8 +114,8 @@ interface IMSwapCallee {
 contract MSwapERC20 is IMSwapERC20 {
     using SafeMath for uint;
 
-    string public constant name = 'MSwap Liquidity';
-    string public constant symbol = 'ML';
+    string public constant name = 'MSwap';
+    string public constant symbol = 'MS';
     uint8 public constant decimals = 18;
     uint  public totalSupply;
     mapping(address => uint) public balanceOf;
